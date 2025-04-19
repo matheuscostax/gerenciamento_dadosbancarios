@@ -1,0 +1,34 @@
+USE gerenciamentobanco;
+
+CREATE TABLE Cliente (
+id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(100) NOT NULL,
+cpf VARCHAR(100) NOT NULL,
+email VARCHAR(100) NOT NULL,
+tipo ENUM('FISICO', 'JURIDICO') NOT NULL
+);
+
+CREATE TABLE Conta (
+id_conta INT AUTO_INCREMENT PRIMARY KEY,
+saldo DOUBLE NOT NULL,
+tipo ENUM('CORRENTE', 'POUPANCA') NOT NULL,
+cliente_id INT,
+FOREIGN KEY (cliente_id) REFERENCES Cliente(id_cliente) ON DELETE CASCADE
+);
+
+CREATE TABLE Funcionario (
+id_funcionario INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(100) NOT NULL,
+salario DOUBLE NOT NULL,
+cargo ENUM('GERENTE', 'ESCRITUARIO') NOT NULL
+);
+
+CREATE TABLE Transacao (
+id_transacao INT AUTO_INCREMENT PRIMARY KEY,
+conta_id INT,
+tipo_transacao ENUM('DEPOSITO', 'SAQUE') NOT NULL,
+valor DOUBLE NOT NULL,
+data_transacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+tipo_tranferencia ENUM('PIX', 'TED') NOT NULL,
+FOREIGN KEY (conta_id) REFERENCES Conta(id_conta) ON DELETE CASCADE
+);
